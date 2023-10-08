@@ -4,6 +4,8 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { getData, getDataCat } from '../Service/Api'
 import { Link } from 'react-router-dom'
+import { Hourglass } from 'react-loader-spinner'
+import { useAuth } from '../AuthPages/Context'
 
 const Product = () => {
 
@@ -40,11 +42,25 @@ const Product = () => {
     setLoadmore(newrow + load)
   }
 
-
-
+    const [auth]=useAuth()  
 
   return (
     <>
+    {
+      !auth.user ? (<h1>Please Login</h1>) :
+    (
+      <>
+
+     {
+        loader ? <center><Hourglass 
+        visible={true}
+        height="80"
+        width="80"
+        ariaLabel="hourglass-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        colors={['#306cce', '#72a1ed']}
+      /></center> :
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={3}>
 
@@ -71,7 +87,7 @@ const Product = () => {
 
 
             {
-              loader ? <h1>loading</h1> :
+              
 
                 product?.slice(0, load)?.map((item, index) => {
 
@@ -124,6 +140,11 @@ const Product = () => {
           }
         </Grid>
       </Grid>
+
+        }
+        </>
+    )
+      }
     </>
   )
 }

@@ -1,23 +1,26 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { details } from '../Service/Api'
 
 const ProductDetails = () => {
 
+  const nav=useNavigate()
     const [user,setUser]=useState([])
     const {id}=useParams()
 
-    const Productdata=async()=>{
+    const ProductData=async()=>{
         const respone = await details(id)
         setUser(respone?.data)
     }
 
     useEffect(()=>{
-         Productdata()  
+         ProductData()  
     },[])
 
   return (
+
+    
     <>
 
     <center><h1>Product Details</h1></center>
@@ -39,8 +42,9 @@ const ProductDetails = () => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
         <Button size="small">Learn More</Button>
+        <Button onClick={()=>nav(-1)}>Back to Product Page</Button>
+
       </CardActions>
     </Card>
     
